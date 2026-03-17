@@ -479,53 +479,158 @@ def fig8_robustness():
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# Fig 9: Dataset Pipeline
+# Fig 9: Dataset Pipeline (block diagram)
 # ═══════════════════════════════════════════════════════════════════════════
 def fig9_dataset_pipeline():
-    print("Fig 9: Dataset Pipeline")
+    print("Fig 9: Dataset Pipeline (block diagram)")
+    from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
+
     stages = [
-        'Raw Audio Files',
-        'After Cleaning',
-        '1-sec Segments',
-        'Balanced Train Set',
-        'Augmented Train Set',
-        'Validation Set',
+        ('Raw Audio\nFiles', '24,502', '#6baed6'),
+        ('Cleaning', '21,646', '#4292c6'),
+        ('1-sec\nSegments', '62,007', '#2171b5'),
+        ('Balancing', '50,497', '#08519c'),
+        ('Augmentation', '227,950', '#08306b'),
     ]
-    counts = [24502, 21646, 62007, 50497, 227950, 5098]
+    val_stage = ('Validation\nSet', '5,098', '#e6550d')
+
+    fig, ax = plt.subplots(figsize=(12, 4.0))
+    ax.set_xlim(-0.5, 12.5)
+    ax.set_ylim(-2.0, 2.5)
+    ax.set_aspect('equal')
+    ax.axis('off')
+
+    box_w, box_h = 2.0, 1.4
+    gap = 0.6
+    x_start = 0.0
+    main_y = 0.5  # raise main row to make room for validation below
+
+    # Draw main pipeline boxes
+    box_positions = []
+    for i, (label, count, color) in enumerate(stages):
+        x = x_start + i * (box_w + gap)
+        y = main_y
+        box = FancyBboxPatch((x, y), box_w, box_h,
+                             boxstyle="round,pad=0.1",
+                             facecolor=color, edgecolor='white',
+                             linewidth=2, alpha=0.9)
+        ax.add_patch(box)
+        # Label
+        ax.text(x + box_w/2, y + box_h/2 + 0.15, label,
+                ha='center', va='center', fontsize=9,
+                fontweight='bold', color='white')
+        # Count
+        ax.text(x + box_w/2, y + 0.2, count,
+                ha='center', va='center', fontsize=8, color='#e0e0e0')
+        box_positions.append((x, y))
+
+        # Arrow between boxes
+        if i < len(stages) - 1:
+            ax.annotate('', xy=(x + box_w + gap * 0.15, y + box_h/2),
+                        xytext=(x + box_w + 0.05, y + box_h/2),
+                        arrowprops=dict(arrowstyle='->', color='#333333',
+                                        lw=1.8))
+
+    # Validation set branch (below, branching from stage 2 "1-sec Segments")
+    branch_x = box_positions[2][0] + box_w / 2
+    val_x = branch_x - box_w / 2
+    val_y = main_y - box_h - 0.7  # place below main row with gap
+    box = FancyBboxPatch((val_x, val_y), box_w, box_h,
+                         boxstyle="round,pad=0.1",
+                         facecolor=val_stage[2], edgecolor='white',
+                         linewidth=2, alpha=0.9)
+    ax.add_patch(box)
+    ax.text(val_x + box_w/2, val_y + box_h/2 + 0.15, val_stage[0],
+            ha='center', va='center', fontsize=9,
+            fontweight='bold', color='white')
+    ax.text(val_x + box_w/2, val_y + 0.2, val_stage[1],
+            ha='center', va='center', fontsize=8, color='#e0e0e0')
+
+    # Arrow from Segments down to Validation
+    ax.annotate('', xy=(branch_x, val_y + box_h),
+                xytext=(branch_x, main_y),
+                arrowprops=dict(arrowstyle='->', color='#333333', lw=1.8))
+
+    # Label on branch arrow
+    mid_y = (main_y + val_y + box_h) / 2
+    ax.text(branch_x + 0.15, mid_y, 'source-level\nsplit',
+            ha='left', va='center', fontsize=7, color='#555555', style='italic')
+
+    # Notes above main boxes
     notes = [
-        '7,657 drone + 16,842 not-drone',
-        'Removed 2,856 (11.5%)\nsilence, clipping, corruption',
-        '1-second windows at 16 kHz',
-        '1:1 class ratio enforced',
-        '19 augmentation types, 5x multiplier',
-        'Source-level split\n(completely unseen)',
+        '10+ sources',
+        '−11.5%',
+        '16 kHz mono',
+        '1:1 ratio',
+        '19 types, ×5',
     ]
+    for i, note in enumerate(notes):
+        x = box_positions[i][0] + box_w / 2
+        ax.text(x, main_y + box_h + 0.25, note, ha='center', va='center',
+                fontsize=7, color='#666666', style='italic')
 
-    colors = ['#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b', '#fd8d3c']
-
-    fig, ax = plt.subplots(figsize=(9, 4.5))
-    y = np.arange(len(stages))
-
-    bars = ax.barh(y, counts, color=colors, edgecolor='white', height=0.6)
-
-    for i, (bar, n, note) in enumerate(zip(bars, counts, notes)):
-        w = bar.get_width()
-        # Count label
-        ax.text(w + counts[-1] * 0.02, bar.get_y() + bar.get_height()/2 - 0.05,
-                f'{n:,}', va='center', fontsize=10, fontweight='bold')
-        # Note label
-        ax.text(w + counts[-1] * 0.02, bar.get_y() + bar.get_height()/2 + 0.25,
-                note, va='center', fontsize=7.5, color='#555555')
-
-    ax.set_yticks(y)
-    ax.set_yticklabels(stages)
-    ax.set_xlabel('Number of Samples')
-    ax.set_title('Data Processing Pipeline (Model v8)')
-    ax.set_xlim(0, max(counts) * 1.45)
-    ax.invert_yaxis()
-    ax.xaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'{int(x):,}'))
+    ax.set_title('Data Processing Pipeline', fontsize=12, fontweight='bold', pad=20)
 
     save_figure(fig, 'fig9_dataset_pipeline')
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Fig 10: System Architecture
+# ═══════════════════════════════════════════════════════════════════════════
+def fig10_system_architecture():
+    print("Fig 10: System Architecture")
+    from matplotlib.patches import FancyBboxPatch
+
+    fig, ax = plt.subplots(figsize=(12, 3.0))
+    ax.set_xlim(-0.5, 14.5)
+    ax.set_ylim(-0.5, 2.5)
+    ax.set_aspect('equal')
+    ax.axis('off')
+
+    blocks = [
+        ('Microphone\n16 kHz, mono', '#7fb3d8', 'Input'),
+        ('1-sec\nSegmentation', '#5a9bd5', 'Preprocessing'),
+        ('Mel-Spectrogram\n640×640 px', '#3a7cc0', 'Feature extraction'),
+        ('YOLOv8n-cls\n1.44M params', '#1a5c9e', 'Classification'),
+        ('Temporal\nSmoothing', '#08407a', 'Post-processing'),
+        ('Drone /\nNot Drone', '#2ca02c', 'Output'),
+    ]
+
+    box_w, box_h = 2.0, 1.4
+    gap = 0.5
+    x_start = 0.0
+
+    for i, (label, color, subtitle) in enumerate(blocks):
+        x = x_start + i * (box_w + gap)
+        y = 0.5
+
+        box = FancyBboxPatch((x, y), box_w, box_h,
+                             boxstyle="round,pad=0.1",
+                             facecolor=color, edgecolor='white',
+                             linewidth=2)
+        ax.add_patch(box)
+
+        # Main label
+        ax.text(x + box_w/2, y + box_h/2 + 0.1, label,
+                ha='center', va='center', fontsize=9,
+                fontweight='bold', color='white')
+
+        # Subtitle below box
+        ax.text(x + box_w/2, y - 0.15, subtitle,
+                ha='center', va='top', fontsize=7, color='#666666',
+                style='italic')
+
+        # Arrow
+        if i < len(blocks) - 1:
+            ax.annotate('', xy=(x + box_w + gap * 0.15, y + box_h/2),
+                        xytext=(x + box_w + 0.05, y + box_h/2),
+                        arrowprops=dict(arrowstyle='->', color='#333333',
+                                        lw=1.8))
+
+    ax.set_title('System Architecture: Audio-Based Drone Detection Pipeline',
+                 fontsize=12, fontweight='bold', pad=15)
+
+    save_figure(fig, 'fig10_system_architecture')
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -544,6 +649,7 @@ def main():
     fig7_confusion_matrices()
     fig8_robustness()
     fig9_dataset_pipeline()
+    fig10_system_architecture()
 
     n_files = len(list(OUTPUT_DIR.glob('*')))
     print(f"\nDone! {n_files} files saved to {OUTPUT_DIR}/")
