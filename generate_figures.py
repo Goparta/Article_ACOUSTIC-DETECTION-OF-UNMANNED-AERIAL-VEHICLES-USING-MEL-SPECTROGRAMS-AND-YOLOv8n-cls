@@ -151,32 +151,22 @@ def fig3_distance_detection():
     v8_dist = [20, 30, 50, 75, 100]
     v8_recall = [89.8, 93.9, 82.7, 85.5, 81.7]
 
-    v9_dist = [20, 30, 50, 75, 100, 150, 200, 300]
-    v9_recall = [94.1, 96.7, 98.4, 98.5, 98.4, 100.0, 100.0, 100.0]
-
     fig, ax = plt.subplots(figsize=(7, 4))
 
     ax.plot(v8_dist, v8_recall, '-o', color=C_V8, linewidth=2, markersize=7,
             label='Model v8', zorder=3)
-    ax.plot(v9_dist, v9_recall, '-s', color=C_V9, linewidth=2, markersize=7,
-            label='Model v9', zorder=3)
 
     # Annotate v8
     for d, r in zip(v8_dist, v8_recall):
         ax.annotate(f'{r:.1f}%', (d, r), textcoords='offset points',
-                    xytext=(0, -14), ha='center', fontsize=8, color=C_V8)
-    # Annotate v9
-    for d, r in zip(v9_dist, v9_recall):
-        ax.annotate(f'{r:.1f}%', (d, r), textcoords='offset points',
-                    xytext=(0, 8), ha='center', fontsize=8, color=C_V9)
+                    xytext=(0, 10), ha='center', fontsize=8, color=C_V8)
 
     ax.set_xlabel('Distance (m)')
     ax.set_ylabel('Drone Recall (%)')
-    ax.set_title('Drone Detection Recall vs. Distance')
-    ax.set_ylim(70, 105)
-    ax.set_xlim(0, 320)
+    ax.set_title('Drone Detection Recall vs. Distance (Model v8)')
+    ax.set_ylim(70, 100)
+    ax.set_xlim(10, 110)
     ax.axhline(y=80, color='gray', linestyle=':', linewidth=0.8, alpha=0.5)
-    ax.legend(loc='lower right')
 
     save_figure(fig, 'fig3_distance_detection')
 

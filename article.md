@@ -14,7 +14,7 @@ UDC 004.934.2
 
 ## 1. Вступ
 
-З поширенням безпілотних літальних апаратів (БПЛА) зростає потреба у системах їх раннього виявлення. БПЛА використовуються як у цивільних цілях — логістика, картографія, моніторинг, — так і з протиправною метою: контрабанда, незаконне спостереження, порушення повітряного простору критичної інфраструктури [1, 2]. Існуючі методи виявлення — радарні, радіочастотні, візуальні — мають суттєві обмеження: радари погано фіксують малі БПЛА з низькою швидкістю [3], радіочастотні методи не працюють з автономними дронами без радіозв'язку [4], а камери залежать від освітлення та погодних умов [5].
+З поширенням безпілотних літальних апаратів (БПЛА) зростає потреба у системах їх раннього виявлення. БПЛА використовуються як у цивільних цілях — логістика, картографія, моніторинг, — так і з протиправною метою: контрабанда, незаконне спостереження, порушення повітряного простору критичної інфраструктури [1, 2]. Існуючі методи виявлення — радарні, радіочастотні, візуальні — мають суттєві обмеження: радари погано фіксують малі БПЛА з низькою швидкістю [4], радіочастотні методи не працюють з автономними дронами без радіозв'язку [6], а камери залежать від освітлення та погодних умов [3].
 
 Акустична детекція є перспективною альтернативою, оскільки дрони створюють характерний звуковий сигнал у діапазоні 100–8000 Гц, зумовлений обертанням роторів та моторів [6]. Акустичні системи працюють незалежно від погоди та видимості, мають відносно низьку вартість та можуть функціонувати цілодобово. Водночас, ефективна дальність акустичних систем обмежена 200–300 м, а міське шумове середовище створює значний фон, що ускладнює розпізнавання [7].
 
@@ -26,15 +26,15 @@ UDC 004.934.2
 
 Методи виявлення БПЛА можна розділити на чотири основні групи: радарні, радіочастотні, візуальні та акустичні [1].
 
-**Радарна детекція** є традиційним підходом для виявлення об'єктів у повітрі. Проте радарні системи оптимізовані для високошвидкісних балістичних цілей і погано фіксують малі БПЛА з низькою ефективною площею розсіювання (ЕПР). Крім того, птахи та БПЛА мають схожі характеристики ЕПР, що ускладнює їх розрізнення [3]. Висока вартість та структурна складність також обмежують доступність радарних систем.
+**Радарна детекція** є традиційним підходом для виявлення об'єктів у повітрі. Проте радарні системи оптимізовані для високошвидкісних балістичних цілей і погано фіксують малі БПЛА з низькою ефективною площею розсіювання (ЕПР). Крім того, птахи та БПЛА мають схожі характеристики ЕПР, що ускладнює їх розрізнення [4]. Висока вартість та структурна складність також обмежують доступність радарних систем.
 
-**Радіочастотна (RF) детекція** базується на перехопленні радіосигналів між БПЛА та його контролером [4]. Цей метод є пасивним (не випромінює сигнали), але має суттєве обмеження: автономні БПЛА без активного радіозв'язку залишаються невидимими для RF-систем. Крім того, при наявності кількох цілей радіосигнали можуть накладатися.
+**Радіочастотна (RF) детекція** базується на перехопленні радіосигналів між БПЛА та його контролером [6]. Цей метод є пасивним (не випромінює сигнали), але має суттєве обмеження: автономні БПЛА без активного радіозв'язку залишаються невидимими для RF-систем. Крім того, при наявності кількох цілей радіосигнали можуть накладатися.
 
-**Візуальна детекція (камери)** дозволяє ідентифікувати тип БПЛА та визначати його візуальні параметри [5]. Однак ефективність суттєво знижується вночі, у тумані, при дощі та при значній відстані до об'єкта. Тепловізійні камери частково вирішують проблему нічного спостереження, але мають обмежену роздільну здатність.
+**Візуальна детекція (камери)** дозволяє ідентифікувати тип БПЛА та визначати його візуальні параметри [3]. Однак ефективність суттєво знижується вночі, у тумані, при дощі та при значній відстані до об'єкта. Тепловізійні камери частково вирішують проблему нічного спостереження, але мають обмежену роздільну здатність.
 
-**Акустична детекція** використовує мікрофони для розпізнавання звукових хвиль роторів БПЛА [6, 7]. Переваги: незалежність від видимості та погоди, цілодобова робота, низька вартість. Обмеження: ефективна дальність 200–300 м, чутливість до фонового шуму.
+**Акустична детекція** використовує мікрофони для розпізнавання звукових хвиль роторів БПЛА [12, 7]. Переваги: незалежність від видимості та погоди, цілодобова робота, низька вартість. Обмеження: ефективна дальність 200–300 м, чутливість до фонового шуму.
 
-У сфері акустичної детекції дронів застосовуються різні підходи машинного навчання. Al-Emadi та співавтори [8] використовували MFCC-ознаки з класифікаторами SVM та Random Forest для розрізнення звуку дронів від шуму навколишнього середовища. Taha та Shoufan [9] провели огляд методів на основі машинного навчання, відзначивши зростання інтересу до CNN-підходів на спектрограмах. Anwar та Rajagopal [10] запропонували використання згорткових нейромереж для класифікації аудіоспектрограм дронів.
+У сфері акустичної детекції дронів застосовуються різні підходи машинного навчання. Dong та співавтори [8] розробили систему детекції звуку дронів на основі фьюжну ознак з використанням глибокого навчання. Tejera-Berengue та співавтори [9] дослідили вплив відстані та навколишнього середовища на якість акустичної детекції БПЛА. Mrabet та співавтори [10] систематизували алгоритми машинного навчання для виявлення та класифікації дронів, виокремивши ключові переваги та виклики.
 
 Комерційні рішення, такі як Dedrone DroneTracker та Squarehead DISCOVAIR, поєднують акустичні сенсори з іншими модальностями (RF, радар, камера) для підвищення надійності, проте вимагають значних інвестицій та спеціалізованої інфраструктури [11].
 
@@ -95,10 +95,10 @@ S_dB = 10 · log₁₀(S / S_ref)                    (1)
 ### 3.2. Набір даних та аугментація
 
 Для тренування та валідації моделей використано понад 25 000 аудіофайлів з 10+ відкритих джерел:
-- **DADS** (HuggingFace): 5 911 записів дронів (30+ типів) та 5 484 записи не-дронів;
-- **SARA**: 1 332 записи дронів та 10 372 записи навколишнього середовища;
+- **DADS** [17] (HuggingFace): 5 911 записів дронів (30+ типів) та 5 484 записи не-дронів;
+- **SARA** [18]: 1 332 записи дронів та 10 372 записи навколишнього середовища;
 - **Neaptide**: 150 записів 3 моделей дронів (Holybro, Matrice, Mavic);
-- **NASA UAS**: 150 професійних записів (24-біт, 20 кГц);
+- **NASA UAS** [19]: 150 професійних записів (24-біт, 20 кГц);
 - **ESC-50** [14]: ~900 записів складних негативних прикладів (гелікоптер, двигун, бензопила, вітер, мова);
 - **droneAudio**: 32 записи різних моделей дронів;
 - Власні записи: 32 файли з телефонів та відеокамер.
@@ -182,11 +182,11 @@ A(d) = –20 · log₁₀(d / d_ref)                    (2)
 
 ### 4.2. Детекція на відстані
 
-Здатність виявляти дрони на відстані є критичною для практичного застосування. Обидві моделі тестувались на валідаційних даних з аугментацією відстані від 20 до 300 м (рис. 6).
+Здатність виявляти дрони на відстані є критичною для практичного застосування. Модель v8 тестувалась на валідаційних даних з аугментацією відстані від 20 до 100 м (рис. 6).
 
 ![Рис. 6 — Drone Detection Recall vs. Distance](figures/fig3_distance_detection.png)
 
-Модель v8 зберігає recall 81.7% на 100 м, тоді як v9 досягає 98.4% на тій самій відстані та утримує 100% навіть на 200–300 м. Покращення v9 зумовлене додаванням NASA UAS датасету з професійними записами на різних відстанях та посиленою регуляризацією (cosine annealing).
+Модель v8 демонструє найвищий recall 93.9% на відстані 30 м та зберігає recall 81.7% на 100 м, що перевищує поріг 80% на всіх тестованих відстанях.
 
 ### 4.3. Стійкість до шуму
 
@@ -276,21 +276,24 @@ A(d) = –20 · log₁₀(d / d_ref)                    (2)
 ## Список літератури
 
 1. Hashimov, E., Sabziev, E., Huseynov, B. and Huseynov, M. (2023), "Mathematical aspects of determining the motion parameters of a target by UAV", *Advanced Information Systems*, vol. 7, no. 1, pp. 18–22, doi: https://doi.org/10.20998/2522-9052.2023.1.03
-2. Bayramov, A.A. and Hashimov, E.G. (2018), "Assessment of invisible areas and military objects in mountainous terrain", *Defence Science Journal*, vol. 68, no. 4, pp. 343–346, doi: https://doi.org/10.14429/dsj.68.11623
-3. Coluccia, A., Saqib, M., Sharma, N., Blumenstein, M., Magoulianitis, V., Ataloglou, D., Dimou, A., Zarpalas, D., Daras, P. and Craye, C. (2019), "Drone-vs-Bird Detection", *16th IEEE AVSS*, Taipei, Taiwan, doi: https://doi.org/10.1109/AVSS.2019.8909876
-4. Ezuma, M., Erden, F., Anjinappa, C.K., Ozdemir, O. and Guvenc, I. (2019), "Micro-UAV Detection and Classification from RF Fingerprints Using Machine Learning Techniques", *IEEE AERO*, USA, doi: https://doi.org/10.1109/AERO.2019.8741970
-5. Seidaliyeva, U., Akhmetov, D., Ilipbayeva, L. and Matson, E. T. (2020), "Real-Time and Accurate Drone Detection in a Video with a Static Background", *Sensors*, vol. 20, no. 14, 3856, doi: https://doi.org/10.3390/s20143856
-6. Thomas, C. (2011), *Sensor Fusion – Foundation and Applications*, InTech, Rijeka, 240 p., doi: https://doi.org/10.5772/680
-7. Taha, B. and Shoufan, A. (2019), "Machine Learning-Based Drone Detection and Classification: State-of-the-Art in Research", *IEEE Access*, vol. 7, pp. 138669–138682, doi: https://doi.org/10.1109/ACCESS.2019.2942944
-8. Al-Emadi, S., Al-Ali, A., Mohammad, A. and Al-Ali, A. (2019), "Audio Based Drone Detection and Identification using Deep Learning", *15th IWSSIP*, Bratislava, Slovakia, doi: https://doi.org/10.1109/IWSSIP.2019.8787803
-9. Anwar, M.Z., Kaleem, Z. and Jamalipour, A. (2019), "Machine Learning Inspired Sound-Based Amateur Drone Detection for Public Safety Applications", *IEEE Transactions on Vehicular Technology*, vol. 68, no. 3, pp. 2526–2534, doi: https://doi.org/10.1109/TVT.2019.2893615
-10. Wu, M., Xie, W., Shi, X., Shao, P. and Shi, Z. (2018), "Real-Time Drone Detection Using Deep Learning Approach", *3rd MLICOM*, Hangzhou, China, pp. 22–32, doi: https://doi.org/10.1007/978-3-030-00557-3_3
+2. Seidaliyeva, U., Ilipbayeva, L., Taissariyeva, K., Smailov, N. and Matson, E.T. (2024), "Advances and Challenges in Drone Detection and Classification Techniques: A State-of-the-Art Review", *Sensors*, vol. 24, no. 1, 125, doi: https://doi.org/10.3390/s24010125
+3. Liu, Z., An, P., Yang, Y., Qiu, S., Liu, Q. and Xu, X. (2024), "Vision-Based Drone Detection in Complex Environments: A Survey", *Drones*, vol. 8, no. 11, 643, doi: https://doi.org/10.3390/drones8110643
+4. Khawaja, W. et al. (2024), "A Survey on Detection, Classification, and Tracking of UAVs using Radar and Communications Systems", *arXiv preprint*, 2402.05909
+5. Jiang, P., Yang, X., Wan, Y., Zeng, T., Nie, M. and Liu, Z. (2024), "DRBD-YOLOv8: A Lightweight and Efficient Anti-UAV Detection Model", *Sensors*, vol. 24, no. 22, 7148, doi: https://doi.org/10.3390/s24227148
+6. Frid, A., Ben-Shimol, Y., Manor, E. and Greenberg, S. (2024), "Drones Detection Using a Fusion of RF and Acoustic Features and Deep Neural Networks", *Sensors*, vol. 24, no. 8, 2427, doi: https://doi.org/10.3390/s24082427
+7. Rahman, M.H., Sejan, M.A.S., Aziz, M.A., Baik, J.-I. and Song, H.-K. (2024), "A Comprehensive Survey of Unmanned Aerial Vehicles Detection and Classification Using Machine Learning Approach", *Remote Sensing*, vol. 16, no. 5, 879, doi: https://doi.org/10.3390/rs16050879
+8. Dong, Q., Liu, Y. and Liu, X. (2023), "Drone sound detection system based on feature result-level fusion using deep learning", *Multimedia Tools and Applications*, vol. 82, pp. 149–171, doi: https://doi.org/10.1007/s11042-022-12964-3
+9. Tejera-Berengue, D., Zhu-Zhou, F., Utrilla-Manso, M., Gil-Pita, R. and Rosa-Zurera, M. (2024), "Acoustic-Based Detection of UAVs Using Machine Learning: Analysis of Distance and Environmental Effects", *Electronics*, vol. 13, no. 3, 643, doi: https://doi.org/10.3390/electronics13030643
+10. Mrabet, M., Sliti, M. and Ben Ammar, L. (2024), "Machine learning algorithms applied for drone detection and classification: benefits and challenges", *Frontiers in Communications and Networks*, vol. 5, doi: https://doi.org/10.3389/frcmn.2024.1440727
 11. Dedrone (2024), "DroneTracker: Airspace Security Platform", available at: https://www.dedrone.com
-12. Shi, L., Ahmad, I., He, Y. and Chang, K. (2018), "Hidden Markov model based drone sound recognition using MFCC technique in practical noisy environments", *Journal of Communications and Networks*, vol. 20, no. 5, pp. 509–518, doi: https://doi.org/10.1109/JCN.2018.000075
-13. Sedunov, A., Haddad, D., Salloum, H., Sutin, A., Sedunov, N. and Yakubovskiy, A. (2019), "Stevens Drone Detection Acoustic System and Experiments in Acoustics UAV Tracking", *IEEE International Symposium on Technologies for Homeland Security*, Woburn, MA, doi: https://doi.org/10.1109/HST47167.2019.9032916
+12. Sun, Y., Li, J., Wang, L. et al. (2024), "Deep Learning-based drone acoustic event detection system for microphone arrays", *Multimedia Tools and Applications*, vol. 83, pp. 47865–47887, doi: https://doi.org/10.1007/s11042-023-17477-1
+13. Kummritz, S. (2024), "The Sound of Surveillance: Enhancing Machine Learning-Driven Drone Detection with Advanced Acoustic Augmentation", *Drones*, vol. 8, no. 3, 105, doi: https://doi.org/10.3390/drones8030105
 14. Piczak, K.J. (2015), "ESC: Dataset for Environmental Sound Classification", *Proceedings of the 23rd ACM International Conference on Multimedia*, pp. 1015–1018, doi: https://doi.org/10.1145/2733373.2806390
 15. Ultralytics (2024), "YOLOv8 Documentation", available at: https://docs.ultralytics.com
 16. Raspberry Pi Foundation (2024), "Raspberry Pi 5", available at: https://www.raspberrypi.com/products/raspberry-pi-5/
+17. Basso, G. (2024), "Drone Audio Detection Samples (DADS)", *HuggingFace*, available at: https://huggingface.co/datasets/geronimobasso/drone-audio-detection-samples
+18. Al-Emadi, S., Al-Ali, A., Al-Ali, A. and Mohamed, A. (2019), "Audio Based Drone Detection and Identification using Deep Learning", *15th IWCMC*, Tangier, Morocco, doi: https://doi.org/10.1109/IWCMC.2019.8766732
+19. Zawodny, N.S., Christian, A. and Cabell, R. (2018), "A Summary of NASA Research Exploring the Acoustics of Small Unmanned Aerial Systems", *NASA Langley Research Center*, available at: https://ntrs.nasa.gov/citations/20180002208
 
 ---
 
