@@ -1,9 +1,3 @@
-ISSN 2522-9052
-
-Сучасні інформаційні системи. 2025. Т. 9, № X
-
-UDC 004.934.2
-
 # ACOUSTIC DETECTION OF UNMANNED AERIAL VEHICLES USING MEL-SPECTROGRAMS AND YOLOv8n-cls
 
 **Abstract.** In this article, a binary audio classification system for detecting unmanned aerial vehicles (UAVs) by their acoustic signature is presented. **The object of the study** is a lightweight drone sound detection pipeline that converts 1-second audio segments into 640×640 mel-spectrograms and classifies them using the YOLOv8n-cls neural network. **The aim of the study** is to develop a practical, edge-deployable system that achieves high accuracy on completely unseen recording setups while running on a Raspberry Pi 5 in under 500 ms per segment. **The main result of the research** is a system achieving 92.5% overall accuracy, 86.7% drone recall, and 95.7% specificity on unseen validation data, with 0% helicopter false positives and 82%+ drone detection at 100 meters distance. The model contains only 1.44 million parameters (5.6 MB ONNX). Nine model iterations revealed critical methodological insights: source-level dataset splitting eliminated data leakage, absolute dB reference in spectrogram generation improved recall by 15%, and increasing spectrogram resolution from 224×224 to 640×640 provided 12.7× more acoustic information per sample. Real-world testing on 14 YouTube audio files confirmed chainsaw rejection at 100% and FPV drone detection at 92%, while identifying remaining challenges with small propeller aircraft (44% false positive rate).
